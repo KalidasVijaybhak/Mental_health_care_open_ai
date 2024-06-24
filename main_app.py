@@ -48,10 +48,12 @@ col1 ,col2,col3= st.columns([1, 2, 7.5])
 with col1:
     if st.button('New Chat'):
         st.session_state.messages = []
+        st.session_state.history = []
         st.session_state.history.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
         st.session_state.analysis = []
 
         st.session_state.analysis.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
+        st.session_state.download = []
         st.rerun()
 with col2:
    with st.popover("Conversation Analysis"):
@@ -68,8 +70,8 @@ with col2:
     st.markdown(assistant_response)
 with col3:
  data = st.session_state.download
-
- del data[0]
+ if data:
+    del data[0]
 
  print('\nDownload session\n')
  print(type(data))
