@@ -14,8 +14,8 @@ client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3
 
 
 
-if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+# if "openai_model" not in st.session_state:
+#     st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 
 if "analysis" not in st.session_state:
@@ -27,10 +27,24 @@ if "download" not in st.session_state:
     st.session_state.download = []
 
     # st.session_state.analysis.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
+st.markdown("""
+    <style>
+      section[data-testid="stSidebar"][aria-expanded="true"]{
+        width: 10% !important;
+      }
+      section[data-testid="stSidebar"][aria-expanded="false"]{
+        width: 10% !important;
+      }
+    </style>""", unsafe_allow_html=True)
+with st.sidebar:
+         option = st.selectbox("Model",
+        ("gpt-3.5-turbo", ))
+        
+if "openai_model" not in st.session_state:
+    st.session_state["openai_model"] = option
 
 
-
-col1 ,col2,col3= st.columns([1, 1, 10])
+col1 ,col2,col3= st.columns([1, 2, 7.5])
 with col1:
     if st.button('New Chat'):
         st.session_state.messages = []
@@ -40,7 +54,7 @@ with col1:
         st.session_state.analysis.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
         st.rerun()
 with col2:
-   with st.popover("Analysis"):
+   with st.popover("Conversation Analysis"):
     stream2 = client.chat.completions.create(
     model=st.session_state["openai_model"],
     messages=[
@@ -54,6 +68,9 @@ with col2:
     st.markdown(assistant_response)
 with col3:
  data = st.session_state.download
+
+ del data[0]
+
  print('\nDownload session\n')
  print(type(data))
  print(st.session_state.download)
@@ -70,7 +87,13 @@ with col3:
         file_name="Chat.txt",
         # mime="text/plain"
     )
+ 
 
+
+     
+        
+if "openai_model" not in st.session_state:
+    st.session_state["openai_model"] = option
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -94,7 +117,7 @@ def get_openai_response(messages):
     )
     return response.choices[0].message['content']
 
-if prompt := st.chat_input("What is up?"):
+if prompt := st.chat_input("Message.."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.session_state.history.append({"role": "user", "content": prompt})
 
