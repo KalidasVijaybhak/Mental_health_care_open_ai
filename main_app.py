@@ -9,7 +9,7 @@ st.set_page_config(
 st.title("Mind Care GPT")
 
 # client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3J")
+# client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3J")
 
 
 

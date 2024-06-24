@@ -1,9 +1,2 @@
-streamlit 
-google-generativeai
-pandas
-bitsandbytes
-transformers
-peft
-accelerate
-datasets
-trl
+openai
+streamlit
