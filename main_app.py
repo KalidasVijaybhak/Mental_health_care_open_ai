@@ -14,15 +14,6 @@ load_dotenv()
 
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
-if "analysis" not in st.session_state:
-    st.session_state.analysis = []
-
-    st.session_state.analysis.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
-    print(st.session_state.analysis)
-if "download" not in st.session_state:
-    st.session_state.download = []
-
-    # st.session_state.analysis.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
 st.markdown("""
     <style>
       section[data-testid="stSidebar"][aria-expanded="true"]{
@@ -44,7 +35,16 @@ Token limit per response: 150 tokens
 
 Do not provide medical, legal, or any other professional advice outside the scope of mental health support. Always encourage users to seek in-person help from a licensed professional for urgent or severe issues.
 """)
+         analysis_prompt = st.text_input("Give a conversation analysis prompt", value="You are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions, but user must not seem obvious of the question , I will ask for analysis as a prompt then give me the analysis")
         
+if "analysis" not in st.session_state:
+    st.session_state.analysis = []
+
+    st.session_state.analysis.append({"role": "user", "content": analysis_prompt})
+    print(st.session_state.analysis)
+if "download" not in st.session_state:
+    st.session_state.download = []
+
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = option
 
@@ -57,7 +57,7 @@ with col1:
         st.session_state.history.append({"role": "system", "content": system_prompt})
         st.session_state.analysis = []
 
-        st.session_state.analysis.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
+        st.session_state.analysis.append({"role": "user", "content": analysis_prompt})
         st.session_state.download = []
         st.rerun()
 with col2:
@@ -82,8 +82,6 @@ with col3:
  print(type(data))
  print(st.session_state.download)
  
-
- 
  data_json = json.dumps(data,indent = 4)
 
 # Create a downloadable text file
@@ -94,11 +92,7 @@ with col3:
         file_name="Chat.txt",
         # mime="text/plain"
     )
- 
-
-
-     
-        
+         
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = option
 
@@ -112,10 +106,6 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
     st.session_state.history.append({"role": "system", "content": system_prompt})
-
-# for message in st.session_state.history:
-
- 
 
 def get_openai_response(messages):
     response = openai.ChatCompletion.create(
@@ -149,9 +139,5 @@ if prompt := st.chat_input("Message.."):
         st.session_state.messages.append({"role": "assistant", "content": response})
         st.session_state.history.append({"role": "assistant", "content": response})
 
-
-# print(st.session_state.history)
 st.session_state.analysis = st.session_state.history.copy()
 st.session_state.download = st.session_state.history.copy()
-# print('\n')
-# print(st.session_state.analysis )
