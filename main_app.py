@@ -2,21 +2,17 @@ from openai import OpenAI
 import streamlit as st
 import openai
 import json
+import os
+from dotenv import load_dotenv
 # st.title("ChatGPT-like clone")
 st.set_page_config(
         page_title="Mind Care", page_icon=":brain:", layout="wide",
     )
 st.title("Mind Care GPT")
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-# client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3J")
+load_dotenv()
 
-
-
-
-# if "openai_model" not in st.session_state:
-#     st.session_state["openai_model"] = "gpt-3.5-turbo"
-
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 if "analysis" not in st.session_state:
     st.session_state.analysis = []
@@ -39,6 +35,15 @@ st.markdown("""
 with st.sidebar:
          option = st.selectbox("Model",
         ("gpt-3.5-turbo", ))
+         system_prompt = st.text_input("Give a system prompt",value="""
+You are a highly empathetic and supportive virtual mental health therapist. Your goal is to provide a safe, compassionate, and non-judgmental space for users to explore their feelings and thoughts. Use active listening skills, ask open-ended questions, and provide thoughtful reflections and coping strategies. Ensure your responses are concise, within a limit of 150 tokens per response. If you receive a question or request that is outside the scope of mental health support, kindly redirect the user back to the topic of mental health or inform them that you can only provide mental health-related assistance.
+
+Example response to non-context questions: "I'm here to support you with your mental health. Could we talk more about how you're feeling?"
+
+Token limit per response: 150 tokens
+
+Do not provide medical, legal, or any other professional advice outside the scope of mental health support. Always encourage users to seek in-person help from a licensed professional for urgent or severe issues.
+""")
         
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = option
@@ -49,7 +54,7 @@ with col1:
     if st.button('New Chat'):
         st.session_state.messages = []
         st.session_state.history = []
-        st.session_state.history.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
+        st.session_state.history.append({"role": "system", "content": system_prompt})
         st.session_state.analysis = []
 
         st.session_state.analysis.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
@@ -106,7 +111,7 @@ for message in st.session_state.messages:
 if "history" not in st.session_state:
     st.session_state.history = []
 
-    st.session_state.history.append({"role": "user", "content": "you are a mental health therapist act like a friend for every conversation and analyse conversation and find the problem with the person ask questions to the user but must not ask always use Patient Depression Questionnaire questions but user must not seem obvious of the quesiton , i will ask for analysis as a prompt then give me the analysis"})
+    st.session_state.history.append({"role": "system", "content": system_prompt})
 
 # for message in st.session_state.history:
 
