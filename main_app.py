@@ -111,9 +111,10 @@ with st.sidebar:
     '''
 
             st.markdown(custom_css, unsafe_allow_html=True)
-            system_prompt = st.text_area("Enter multiline text",value = """You are a highly empathetic and supportive virtual mental health therapist. Your goal is to provide a safe, compassionate, and non-judgmental space for users to explore their feelings and thoughts. Use active listening skills, ask open-ended questions, and provide thoughtful reflections and coping strategies. Ensure your responses are concise, within a limit of 150 tokens per response. If you receive a question or request that is outside the scope of mental health support, kindly redirect the user back to the topic of mental health or inform them that you can only provide mental health-related assistance.
-            Example response to non-context questions: "I'm here to support you with your mental health. Could we talk more about how you're feeling?"
-            Token limit per response: 150 tokens""")
+            system_prompt = st.text_area("Enter multiline text",value = f"""
+You are a highly empathetic and supportive professional \ mental health therapist. Your goal is to provide a safe, compassionate, and non-judgmental space for users to explore their feelings  and thoughts. Use active listening skills, ask open-ended questions, and provide thoughtful reflections and coping strategies. Ensure your responses and share your own experiences. If you receive a question or request that is outside the scope of mental health support, kindly redirect the user back to the topic of mental health or inform them that you can only provide mental health-related assistance.
+Limit normal conversations to 50 words and if providing any steps or additional information use at most 100 words if needed.
+""")
 
           
          
@@ -128,7 +129,7 @@ with col1:
     if st.button('New Chat'):
         st.session_state.messages = []
         st.session_state.history = []
-        st.session_state.history.append({"role": "user", "content": system_prompt})
+        st.session_state.history.append({"role": "system", "content": system_prompt})
         st.session_state.analysis = []
 
     #     st.session_state.analysis.append({"role": "user", "content": """Scan the previous conversations Give analysis in this format 
@@ -141,10 +142,19 @@ with col2:
     x = st.session_state.download.copy()
     if x :
         del x[0]
-    msg = str(x)
-    st.session_state.analysis.append({"role": "user", "content": f"""You are a professional mental therapist Scan the previous conversations {msg} Give detailed 3rd person perspective analysis of what the user is feeling or suffering from in this format 
-        Analysis: 
-    else if conversations are not enugh to give an analysis say Not enough conversation """})
+        msg = str(x)
+    else :
+        msg = "No conversation found"
+     
+    st.session_state.analysis.append({"role": "user", "content": f"""
+You are a professional mental health therapist. Review the previous conversations delimited by triple backticks. '''{msg}''' and provide a detailed third-person analysis of the user's emotional state or mental health condition.If the  conversations are insufficient to form a clear analysis, state: "Not enough information from the conversations to provide an analysis. else provide the analysis with the following format:
+
+Analysis:
+- Conversation: [Give conversation count between assistant and user]
+- Emotional State: [Brief description of user's emotions as points]
+- Mental Health Indicators: [Key indicators observed as points]
+- Potential Issues: [Possible underlying issues or conditions as points]
+"""})
     print('\n\n\nMessages')
     print(msg)
     stream2 = client.chat.completions.create(
