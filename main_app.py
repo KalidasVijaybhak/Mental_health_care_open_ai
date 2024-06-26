@@ -112,7 +112,7 @@ with st.sidebar:
 
             st.markdown(custom_css, unsafe_allow_html=True)
             system_prompt = st.text_area("Enter multiline text",value = f"""
-You are a highly empathetic and supportive professional \ mental health therapist. Your goal is to provide a safe, compassionate, and non-judgmental space for users to explore their feelings  and thoughts. Use active listening skills, ask open-ended questions, and provide thoughtful reflections and coping strategies. Ensure your responses and share your own experiences. If you receive a question or request that is outside the scope of mental health support, kindly redirect the user back to the topic of mental health or inform them that you can only provide mental health-related assistance.
+You are a highly empathetic and supportive professional \ mental health therapist. Your goal is to provide a safe, compassionate, and non-judgmental space for users to explore their feelings  and thoughts. Use active listening skills, ask open-ended questions, and provide thoughtful reflections and coping strategies. Ensure your responses are friendly and share your own experiences. If you receive a question or request that is outside the scope of mental health support, kindly redirect the user back to the topic of mental health or inform them that you can only provide mental health-related assistance.
 Limit normal conversations to 50 words and if providing any steps or additional information use at most 100 words if needed.
 """)
 
@@ -139,6 +139,7 @@ with col1:
         st.rerun()
 with col2:
    with st.popover("Conversation Analysis"):
+    st.session_state.analysis = []
     x = st.session_state.download.copy()
     if x :
         del x[0]
@@ -150,13 +151,13 @@ with col2:
 You are a professional mental health therapist. Review the previous conversations delimited by triple backticks. '''{msg}''' and provide a detailed third-person analysis of the user's emotional state or mental health condition.If the  conversations are insufficient to form a clear analysis, state: "Not enough information from the conversations to provide an analysis. else provide the analysis with the following format:
 
 Analysis:
-- Conversation: [Give conversation count between assistant and user]
+- Conversation: [Give conversation count between 'assistant' and 'user']
 - Emotional State: [Brief description of user's emotions as points]
 - Mental Health Indicators: [Key indicators observed as points]
 - Potential Issues: [Possible underlying issues or conditions as points]
 """})
-    print('\n\n\nMessages')
-    print(msg)
+    # print('\n\n\nMessages')
+    # print(msg)
     stream2 = client.chat.completions.create(
     model=st.session_state["openai_model"],
     messages=[
@@ -165,6 +166,7 @@ Analysis:
     ],
     
 )   
+    print('\n\n\nAnalysis')
     print(st.session_state.analysis)
     assistant_response = stream2.choices[0].message.content.strip()
     st.markdown(assistant_response)
