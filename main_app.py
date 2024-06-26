@@ -8,8 +8,8 @@ st.set_page_config(
     )
 st.title("Mind Care GPT")
 
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-# client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3J")
+# client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3J")
 
 
 @st.cache_data
@@ -28,10 +28,10 @@ def fup(uploaded_data):
 if "analysis" not in st.session_state:
     st.session_state.analysis = []
 
-    st.session_state.analysis.append({"role": "user", "content": """give analysis in this format
-Analysis: 
-    else say Not enough conversation
-"""})
+#     st.session_state.analysis.append({"role": "user", "content": """You are an advanced mental health specialist scan the previous conversations Give analysis in this format 
+#     Analysis: 
+#     else say Not enough conversation
+# """})
     # print(st.session_state.analysis)
 if "download" not in st.session_state:
     st.session_state.download = []
@@ -112,14 +112,8 @@ with st.sidebar:
 
             st.markdown(custom_css, unsafe_allow_html=True)
             system_prompt = st.text_area("Enter multiline text",value = """You are a highly empathetic and supportive virtual mental health therapist. Your goal is to provide a safe, compassionate, and non-judgmental space for users to explore their feelings and thoughts. Use active listening skills, ask open-ended questions, and provide thoughtful reflections and coping strategies. Ensure your responses are concise, within a limit of 150 tokens per response. If you receive a question or request that is outside the scope of mental health support, kindly redirect the user back to the topic of mental health or inform them that you can only provide mental health-related assistance.
-
             Example response to non-context questions: "I'm here to support you with your mental health. Could we talk more about how you're feeling?"
-
-            Token limit per response: 150 tokens
-
-            Do not provide medical, legal, or any other professional advice outside the scope of mental health support. Always encourage users to seek in-person help from a licensed professional for urgent or severe issues.
-
-""")
+            Token limit per response: 150 tokens""")
 
           
          
@@ -137,13 +131,22 @@ with col1:
         st.session_state.history.append({"role": "user", "content": system_prompt})
         st.session_state.analysis = []
 
-        st.session_state.analysis.append({"role": "user", "content": """Give analysis in the format 
-        Analysis: 
-    else say Not enough conversation"""})
+    #     st.session_state.analysis.append({"role": "user", "content": """Scan the previous conversations Give analysis in this format 
+    #     Analysis: 
+    # else say Not enough conversation"""})
         st.session_state.download = []
         st.rerun()
 with col2:
    with st.popover("Conversation Analysis"):
+    x = st.session_state.download.copy()
+    if x :
+        del x[0]
+    msg = str(x)
+    st.session_state.analysis.append({"role": "user", "content": f"""You are a professional mental therapist Scan the previous conversations {msg} Give detailed 3rd person perspective analysis of what the user is feeling or suffering from in this format 
+        Analysis: 
+    else if conversations are not enugh to give an analysis say Not enough conversation """})
+    print('\n\n\nMessages')
+    print(msg)
     stream2 = client.chat.completions.create(
     model=st.session_state["openai_model"],
     messages=[
@@ -231,7 +234,7 @@ if prompt := st.chat_input("Message.."):
 
 
 # print(st.session_state.history)
-st.session_state.analysis = st.session_state.history.copy()
+# st.session_state.analysis = st.session_state.history.copy()
 st.session_state.download = st.session_state.history.copy()
 # print('\n')
 # print(st.session_state.analysis )
