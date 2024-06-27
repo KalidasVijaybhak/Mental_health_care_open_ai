@@ -140,7 +140,7 @@ with col1:
 with col2:
    with st.popover("Conversation Analysis"):
     st.session_state.analysis = []
-    x = st.session_state.download.copy()
+    x = st.session_state.messages.copy()
     if x :
         del x[0]
         msg = str(x)
