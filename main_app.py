@@ -75,7 +75,7 @@ st.markdown("""
     </style>""", unsafe_allow_html=True)
 with st.sidebar:
         option = st.selectbox("Model",
-        ("gpt-3.5-turbo", ))
+        ("gpt-3.5-turbo","gpt-3.5-turbo-1106" ))
 
         #  st.set_option('client.fileUploader.button', (200, 50))
         for i in range(1):
@@ -264,7 +264,7 @@ if "history" not in st.session_state:
 
 def get_openai_response(messages):
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # or "gpt-3.5-turbo" depending on your model
+        model=option,  # or "gpt-3.5-turbo" depending on your model
         messages=messages
     )
     return response.choices[0].message['content']
