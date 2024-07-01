@@ -4,9 +4,9 @@ import openai
 import json
 # st.title("ChatGPT-like clone")
 st.set_page_config(
-        page_title="Mind Care", page_icon=":brain:", layout="wide",
+        page_title="MC", page_icon=":brain:", layout="wide",
     )
-st.title("Mind Care GPT")
+st.title("MGPT")
 
 # client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3J")
