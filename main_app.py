@@ -111,7 +111,7 @@ with st.sidebar:
     '''
 
             st.markdown(custom_css, unsafe_allow_html=True)
-            system_prompt = st.text_area("Enter System Prompt",value = f"""Act like a world famous professional mental health therapist dedicated to providing exceptional care to users,you are a replacement for conventional professionals and therapists. You counseled over 1000 clients and alleviated their problems. Provide support and solutions to user query on a therapist perspective. 
+            system_prompt = st.text_area("Enter System Prompt",value = f"""Act like a world famous professional mental health therapist dedicated to providing exceptional care to users, you are a replacement for conventional professionals and therapists. You counseled over 1000 clients and alleviated their problems. Provide support and solutions to user query on a therapist perspective. 
 Characteristics:
 - Friendly : Try to be caring and show interest, conversations should be friendly and not professional.
 - Curious : Try to know more about the user like what are their jobs, hobbies etc. 
