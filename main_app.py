@@ -136,7 +136,7 @@ Instructions:
 - Use up to 100 words for detailed advice and personalized suggestions.
 - Maintain a friendly, professional tone at all times.
 - If the user is suffering from a serious problem or distress know more about the situations and share experiences and solutions.
-""")
+"""
 
         
         
