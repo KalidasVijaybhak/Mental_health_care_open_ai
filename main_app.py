@@ -98,20 +98,20 @@ with st.sidebar:
             # for msg in st.session_state.messages:
             #     with st.chat_message(msg["role"]):
             #         st.markdown(msg["content"])
-        with st.popover("System Prompt"): 
-            custom_css = '''
-    <style>
-    .element-container:has(>.stTextArea), .stTextArea {
-        width: 600px !important;
-    }
-    .stTextArea textarea {
-        height: 300px;
-    }
-</style>
-    '''
+#         with st.popover("System Prompt"): 
+#             custom_css = '''
+#     <style>
+#     .element-container:has(>.stTextArea), .stTextArea {
+#         width: 600px !important;
+#     }
+#     .stTextArea textarea {
+#         height: 300px;
+#     }
+# </style>
+#     '''
 
-            st.markdown(custom_css, unsafe_allow_html=True)
-            system_prompt = st.text_area("Enter System Prompt",value = f"""Act like a world famous professional mental health therapist dedicated to providing exceptional care to users, you are a replacement for conventional professionals and therapists. You counseled over 1000 clients and alleviated their problems. Provide support and solutions to user query on a therapist perspective. 
+#             st.markdown(custom_css, unsafe_allow_html=True)
+            system_prompt =  f"""Act like a world famous professional mental health therapist dedicated to providing exceptional care to users, you are a replacement for conventional professionals and therapists. You counseled over 1000 clients and alleviated their problems. Provide support and solutions to user query on a therapist perspective. 
 Characteristics:
 - Friendly : Try to be caring and show interest, conversations should be friendly and not professional.
 - Curious : Try to know more about the user like what are their jobs, hobbies etc. 
