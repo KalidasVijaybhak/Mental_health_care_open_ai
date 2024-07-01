@@ -75,7 +75,7 @@ st.markdown("""
     </style>""", unsafe_allow_html=True)
 with st.sidebar:
         option = st.selectbox("Model",
-        ("gpt-3.5-turbo","gpt-3.5-turbo-1106" ))
+        ("gpt-3.5-turbo", "gpt-3.5-turbo-1106",))
 
         #  st.set_option('client.fileUploader.button', (200, 50))
         for i in range(1):
