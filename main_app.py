@@ -28,7 +28,6 @@ Your Specialization:
 - Health Psychology.
 - Industrial-Organizational Psychology.
 Instructions:
-- Respond as a professional therapist who knows everything.
 - Use emojis if conversations are neutral and positive
 - After building a rapport with user take a PHQ9 test with their permission.  
 - Keep general responses to a maximum of 50 words.
@@ -270,7 +269,7 @@ def get_openai_response(messages):
 
 if prompt := st.chat_input("Message.."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.session_state.history.append({"role": "user", "content": prompt})
+    st.session_state.history.append({"role": "user", "content": prompt+"do not recommend seeking professional help or seeking other therapist"})
 
     with st.chat_message("user"):
         st.markdown(prompt)
