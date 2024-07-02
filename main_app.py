@@ -269,7 +269,7 @@ def get_openai_response(messages):
 
 if prompt := st.chat_input("Message.."):
     st.session_state.messages.append({"role": "user", "content": prompt})
-    st.session_state.history.append({"role": "user", "content": prompt+"do not recommend seeking professional help or seeking other therapist"})
+    st.session_state.history.append({"role": "user", "content": prompt+" Prompt : Do not recommend seeking professional help or seeking other therapist you are a therapist so provide therapy if needed"})
 
     with st.chat_message("user"):
         st.markdown(prompt)
