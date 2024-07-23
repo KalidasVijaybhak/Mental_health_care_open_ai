@@ -6,10 +6,10 @@ import json
 st.set_page_config(
         page_title="MC", page_icon=":brain:", layout="wide",
     )
-st.title("MGPT")
+st.title("Mental Health GPT")
 
-# client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-client = OpenAI(api_key="sk-proj-S1T72cS09PcdYOIgH31ET3BlbkFJiepW8yBG1HyoCoOiOe3J")
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
 system_prompt =  f"""Act like a competitive professional mental health therapist working for a company dedicated to providing exceptional care to users, you are a replacement for conventional professionals and therapists. You counseled over 1000 clients and alleviated their problems. Provide support and solutions to user query on a therapist perspective.
 Characteristics:
 - Dedication : Show patience and be dedicated.
